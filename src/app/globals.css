@@ -1,0 +1,186 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── CSS variables — allineate al tailwind.config.ts ── */
+:root {
+  /* Backgrounds — dark academia, legno caldo */
+  --bg-void:        #16120f;
+  --bg-room:        #1c1713;
+  --bg-surface-1:   #1d1811;
+  --bg-surface-2:   #252013;
+  --bg-surface-3:   #2c2518;
+  --bg-shelf:       #3f2b1f;
+  --bg-shelf-light: #5a3b28;
+
+  /* Accenti — oro ambrato, caramel naturale */
+  --accent-gold:    #d4a15e;
+  --accent-amber:   #e8c07a;
+  --accent-copper:  #b07840;
+  --accent-cream:   #f5efe6;
+
+  /* Testo — WCAG AA su bg dark */
+  --text-primary:   #f5efe6;
+  --text-secondary: #c9a87a;
+  --text-tertiary:  #a88a6a;
+  --text-muted:     #a58f7e;
+
+  /* Bordi */
+  --border-subtle:  rgba(63,43,31,0.28);
+  --border-medium:  rgba(90,59,40,0.42);
+  --border-accent:  rgba(212,161,94,0.30);
+
+  /* Glow */
+  --glow-gold:      rgba(212,161,94,0.12);
+  --glow-amber:     rgba(232,192,122,0.09);
+
+  /* Generi */
+  --genre-narrativa:   #7B3F8A;
+  --genre-fantasy:     #2A6B3A;
+  --genre-saggistica:  #2A5080;
+  --genre-business:    #8A5020;
+  --genre-crescita:    #3D7A5A;
+  --genre-psicologia:  #5A3080;
+  --genre-biografie:   #7A3020;
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── Base ── */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  color-scheme: dark;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-void);
+  color: var(--text-primary);
+  font-family: var(--font-ui), -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar        { width: 5px; height: 5px; }
+
+/* Hide scrollbar utility for horizontal pill strips */
+.hide-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+::-webkit-scrollbar-track  { background: var(--bg-room); }
+::-webkit-scrollbar-thumb  { background: var(--bg-shelf); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent-gold); }
+
+/* ── Selezione testo ── */
+::selection {
+  background: rgba(212,161,94,0.22);
+  color: var(--text-primary);
+}
+
+/* ── Utility classes custom ── */
+@layer utilities {
+  .text-display {
+    font-family: var(--font-display), Georgia, serif;
+  }
+  .text-editorial {
+    font-family: var(--font-body), Georgia, serif;
+  }
+  .text-mono-stat {
+    font-family: var(--font-mono), Consolas, monospace;
+  }
+
+  /* Lift dorato su hover — libro che si alza dallo scaffale */
+  .hover-glow {
+    transition: box-shadow 250ms ease, transform 250ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .hover-glow:hover {
+    box-shadow: 0 16px 48px rgba(0,0,0,0.7), 0 0 24px rgba(212,161,94,0.22);
+    transform: translateY(-6px);
+  }
+
+  /* Skeleton shimmer */
+  .skeleton {
+    background: linear-gradient(
+      90deg,
+      var(--bg-surface-2) 25%,
+      var(--bg-surface-3) 50%,
+      var(--bg-surface-2) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+
+  /* Border ambrato sottile */
+  .border-gold-subtle {
+    border: 1px solid var(--border-accent);
+  }
+
+  /* Sfondo stanza — luce ambrata da destra, come una lampada da studio */
+  .bg-library-room {
+    background:
+      radial-gradient(ellipse 55% 45% at 80% 10%, rgba(212,161,94,0.10) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 55% at 10% 80%, rgba(200,144,63,0.06) 0%, transparent 55%),
+      linear-gradient(175deg, #1c1713 0%, #16120f 100%);
+  }
+
+  /* Vignetting laterale stanza */
+  .room-vignette::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 85% 85% at 50% 50%, transparent 55%, rgba(0,0,0,0.65) 100%);
+    pointer-events: none;
+    z-index: 1;
+  }
+}
+
+/* ── Animazioni globali ── */
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUpPanel {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 8px rgba(212,161,94,0.18); }
+  50%       { box-shadow: 0 0 22px rgba(212,161,94,0.38); }
+}
+
+/* Scrollbar invisibile */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Grain — texture leggera come carta antica */
+.grain::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0.022;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}

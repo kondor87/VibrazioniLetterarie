@@ -1,0 +1,336 @@
+# UX Flows e Wireframes — Biblioteca Digitale Personale
+> Wireframe ASCII · Layout desktop-first (1440px target)
+
+---
+
+## 1. Layout Principale — Shell
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ SIDEBAR (220px)        │ TOPBAR (100% - 220px)                              │
+│                        │ [🔍 Cerca titolo, autore...]    [+ Aggiungi libro] │
+├────────────────────────┼──────────────────────────────────────────┬──────────┤
+│                        │                                          │          │
+│  VIBRAZIONI            │                                          │  STATS   │
+│  LETTERARIE            │         AREA CONTENUTO                   │  PANEL   │
+│                        │         PRINCIPALE                       │  (280px) │
+│  ──────────────        │                                          │          │
+│  📚 Libreria  ←active  │                                          │          │
+│  📊 Dashboard          │                                          │          │
+│  📖 I miei libri       │                                          │          │
+│  🕐 Da leggere         │                                          │          │
+│  ⭐ Preferiti          │                                          │          │
+│  💬 Citazioni          │                                          │          │
+│  👤 Autori             │                                          │          │
+│  🏷️  Generi            │                                          │          │
+│  📈 Statistiche        │                                          │          │
+│  🤖 Suggerimenti AI    │                                          │          │
+│                        │                                          │          │
+│  ──────────────        ├──────────────────────────────────────────┴──────────┤
+│  👤 Marco              │ BOOK DETAIL PANEL (altezza 320px, slide-up)        │
+│  ⚙️  Impostazioni      │                                                     │
+└────────────────────────┴─────────────────────────────────────────────────────┘
+```
+
+---
+
+## 2. Vista Libreria — Scaffale Principale
+
+```
+┌─ AREA LIBRERIA ─────────────────────────────────────────────────────────────┐
+│                                                                             │
+│  [Tutti] [Narrativa] [Fantasy] [Saggistica] [Business] [+ altro ▾]        │
+│  Sort: [Data lettura ▾]                              Vista: [📚] [☰]       │
+│                                                                             │
+│  ░░░░░░░░░░░░░░░░░░ STANZA VIRTUALE ░░░░░░░░░░░░░░░░░░░░░░░░░░░           │
+│                    (sfondo scuro mahogany)                                  │
+│                                                                             │
+│  ┌──────────────── SCAFFALE 1 ─────────────────────────────────────────┐   │
+│  │ ║▓▓▓║ ║▓▓▓║ ║▓▓▓║ ║▓▓▓║ ║▓▓▓║ ║▓▓▓║ ║▓▓▓║ ║▓▓▓║ ║▓▓▓║ ║▓▓▓║      │   │
+│  │ ║SAP║ ║198║ ║DEE║ ║ATM║ ║SHO║ ║ONE║ ║STO║ ║SAP║ ║PSY║ ║GOO║      │   │
+│  │ ║IEN║ ║4  ║ ║P W║ ║OS ║ ║OGU║ ║TH ║ ║IC ║ ║IEN║ ║CHO║ ║D E║      │   │
+│  └─────────────────────────────────────────────────────────────────────┘   │
+│                    (legno texturizzato, ombra sotto)                        │
+│  ┌──────────────── SCAFFALE 2 ─────────────────────────────────────────┐   │
+│  │ ║▓▓▓║ ║▓▓▓║ ║▓▓▓║ ║▓▓▓║ ║▓▓▓║ ║▓▓▓║ ...                          │   │
+│  └─────────────────────────────────────────────────────────────────────┘   │
+│                                                                             │
+│  ┌──────────────── SCAFFALE 3 (parziale) ──────────────────────────────┐   │
+│  │ ║▓▓▓║ ║▓▓▓║ ║▓▓▓║ ...                  [+ Aggiungi libro vuoto]    │   │
+│  └─────────────────────────────────────────────────────────────────────┘   │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+**Copertina singola (hover state):**
+```
+    ┌──────┐   ← copertina 80×120px
+    │      │   ← sollevata 8px verso l'alto
+    │ IMG  │   ← glow dorato intorno (box-shadow)
+    │      │
+    └──────┘
+    Sapiens     ← tooltip con titolo + autore
+    Harari
+```
+
+---
+
+## 3. Pannello Dettaglio Libro (slide-up dal basso)
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ ╔═══════╗  │  Sapiens. Breve storia dell'umanità          [❤] [✏️] [🗑]   │
+│ ║       ║  │  Yuval Noah Harari  ·  2011  ·  512 pag  ·  🇮🇹  ·  📱 ebook │
+│ ║ COVER ║  │                                                               │
+│ ║       ║  │  ★★★★★★★★★★  10/10                                           │
+│ ║       ║  │  Generi: [Saggistica] [Storia] [Filosofia]                   │
+│ ╚═══════╝  │  Letto: 14 Mar 2023 → 28 Mar 2023  (14 giorni)              │
+│  200px w   │                                                               │
+│            ├───────────────────────────────────────────────────────────────┤
+│            │ LA MIA RECENSIONE                                             │
+│            │ Un libro che ridefinisce il modo di pensare alla storia...    │
+│            │ [continua]                                                    │
+│            ├───────────────────────────────────────────────────────────────┤
+│            │ CITAZIONI (3)                     NOTE PERSONALI             │
+│            │ ❝ Il denaro è la cosa più...❞     "Letto dopo che Marco...   │
+│            │ ❝ La cultura è capace di...❞                                 │
+│            │ [+ Aggiungi citazione]                                        │
+│            │                                                               │
+│            │ LIBRI SIMILI (AI): 1984 · Homo Deus · Guns, Germs & Steel   │
+└────────────┴───────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 4. Dashboard Statistiche
+
+```
+┌─── DASHBOARD ──────────────────────────────────────────────────────────────┐
+│                                                                             │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐   │
+│  │  LETTI   │  │  PAGINE  │  │  MEDIA   │  │  AUTORE  │  │ VELOCITÀ │   │
+│  │          │  │          │  │  VOTI    │  │ PREF.    │  │          │   │
+│  │    83    │  │  24,156  │  │   7.8    │  │ Harari   │  │ 42 p/g   │   │
+│  │  libri   │  │  lette   │  │  /10     │  │ (6 libri)│  │ pag/giorno│  │
+│  └──────────┘  └──────────┘  └──────────┘  └──────────┘  └──────────┘   │
+│                                                                             │
+│  ┌─── LIBRI PER ANNO ────────────────┐  ┌─── DISTRIBUZIONE GENERI ──────┐ │
+│  │ 25│         ████                  │  │         ████                   │ │
+│  │ 20│     ████████                  │  │        █    █                  │ │
+│  │ 15│  ████████████                 │  │       █ Sag  █ Fan             │ │
+│  │ 10│████████████████               │  │      █  32%   12% █            │ │
+│  │  5│████████████████████           │  │       █  Bus  █                │ │
+│  │   └─────────────────────          │  │        ████████                │ │
+│  │   2021  2022  2023  2024  2025    │  │  Narrativa 24% · Saggistica 32%│ │
+│  └───────────────────────────────────┘  └────────────────────────────────┘ │
+│                                                                             │
+│  ┌─── OBIETTIVO 2025 ──────────────────────────────────────────────────┐   │
+│  │  ████████████████████████░░░░░░░░  18/24 libri  (75%)  🎯 entro nov │   │
+│  └─────────────────────────────────────────────────────────────────────┘   │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 5. Timeline Intellettuale
+
+```
+┌─── TIMELINE DEL MIO PERCORSO ──────────────────────────────────────────────┐
+│                                                                             │
+│  2021 ──●──────────────────────────────────────────────────────────────    │
+│         │  📊 Business · 💰 Finanza · 🚀 Startup                          │
+│         │  [Padre Ricco] [Zero to One] [The Lean Startup] [Rich Dad...]   │
+│         │  "Anno della svolta professionale"                               │
+│                                                                             │
+│  2022 ──●──────────────────────────────────────────────────────────────    │
+│         │  📖 Saggistica · 🧠 Psicologia · 🔬 Scienza                     │
+│         │  [Sapiens] [Thinking Fast & Slow] [The Body]                    │
+│                                                                             │
+│  2023 ──●──────────────────────────────────────────────────────────────    │
+│         │  🌱 Crescita Personale · 🧘 Stoicismo · 📝 Abitudini            │
+│         │  [Atomic Habits] [Meditations] [Deep Work] [The Obstacle...]    │
+│         │  "Anno del focus interiore"                                      │
+│                                                                             │
+│  2024 ──●──────────────────────────────────────────────────────────────    │
+│         │  👨‍👩‍👧 Genitorialità · 🏠 Famiglia · 💭 Filosofia               │
+│         │  [The Whole-Brain Child] [How to Talk...] [...in attesa]        │
+│                                                                             │
+│  2025 ──●──────────────────────────────────────────────────────────────    │
+│  (ora)  │  🤖 AI · 🔮 Futuro · 🌍 Geopolitica                            │
+│         │  [The Coming Wave] [Nexus] [The Age of AI]                      │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 6. Profilo Lettore AI
+
+```
+┌─── IL TUO PROFILO LETTORE ─────────────────────────────────────────────────┐
+│                                                                             │
+│         ┌─────────────────────────────────────────┐                        │
+│         │  🔭 IL RICERCATORE PRAGMATICO            │                        │
+│         │                                         │                        │
+│         │  "Cerchi pattern ovunque. La tua         │                        │
+│         │  biblioteca è un laboratorio: ogni       │                        │
+│         │  libro è un esperimento mentale.         │                        │
+│         │  Non leggi per intrattenimento —         │                        │
+│         │  leggi per costruire modelli del         │                        │
+│         │  mondo."                                 │                        │
+│         └─────────────────────────────────────────┘                        │
+│                                                                             │
+│  TEMI RICORRENTI                    EVOLUZIONE RILEVATA                    │
+│  ┌──────────────────────────┐       ┌──────────────────────────────────┐   │
+│  │ 1. Mental models         │       │ 2021-22: ottimizzazione esterna   │   │
+│  │ 2. Sistemi e pattern     │       │ (produttività, business)          │   │
+│  │ 3. Storia come lente     │       │                                   │   │
+│  │ 4. Psicologia decisionale│       │ 2023-24: ricerca interiore        │   │
+│  │ 5. Futuro e tecnologia   │       │ (stoicismo, abitudini, famiglia)  │   │
+│  └──────────────────────────┘       │                                   │   │
+│                                     │ 2025: sintesi + futuro            │   │
+│  [🔄 Rigenera profilo]              │ (AI, sistemi complessi)           │   │
+│  Ultimo aggiornamento: oggi         └──────────────────────────────────┘   │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 7. Suggerimenti AI
+
+```
+┌─── SUGGERIMENTI PER TE ────────────────────────────────────────────────────┐
+│                                                                             │
+│  MOLTO COMPATIBILI ── probabilmente li amerai                              │
+│  ┌───────┬─────────────────────────────────────────────────────────────┐   │
+│  │ [IMG] │ The Almanack of Naval Ravikant  ·  Eric Jorgenson           │   │
+│  │       │ "Combina filosofia pratica e pensiero sui sistemi,          │   │
+│  │       │ i due temi più ricorrenti nella tua biblioteca."            │   │
+│  │       │ ⭐ Match 9.4/10    [+ Aggiungi a Da Leggere]  [Ignora]      │   │
+│  └───────┴─────────────────────────────────────────────────────────────┘   │
+│  ┌───────┬─────────────────────────────────────────────────────────────┐   │
+│  │ [IMG] │ Thinking in Systems  ·  Donella Meadows                    │   │
+│  │       │ "Formalizza i concetti sui sistemi che usi intuitivamente." │   │
+│  │       │ ⭐ Match 9.1/10    [+ Aggiungi a Da Leggere]  [Ignora]      │   │
+│  └───────┴─────────────────────────────────────────────────────────────┘   │
+│                                                                             │
+│  TI SFIDERÀ ── fuori dalla tua comfort zone, ma utile                     │
+│  ┌───────┬─────────────────────────────────────────────────────────────┐   │
+│  │ [IMG] │ Being and Time  ·  Martin Heidegger                        │   │
+│  │       │ "Difficile, ma complementa il tuo interesse nella          │   │
+│  │       │ fenomenologia della coscienza visto in Frankl."            │   │
+│  │       │ ⚡ Sfida alta    [+ Aggiungi a Da Leggere]  [Ignora]        │   │
+│  └───────┴─────────────────────────────────────────────────────────────┘   │
+│                                                                             │
+│  PROBABILMENTE NON GRADIRESTI                                              │
+│  ✗ Romance contemporary · ✗ Horror splatter · ✗ Thriller di basso livello │
+│  [Perché?] "La tua libreria valorizza densità intellettuale e             │
+│            applicabilità pratica — questi generi offrono poco in questo." │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 8. Flusso Aggiunta Libro
+
+```
+[Click "+ Aggiungi libro"]
+         ↓
+┌─── AGGIUNGI LIBRO ─────────────────────────────────────────────────────────┐
+│                                                                             │
+│  [🔍 Cerca titolo o ISBN...]                                               │
+│                                                                             │
+│  ┌── RISULTATI AUTOCOMPLETE ───────────────────────────────────────────┐   │
+│  │ [IMG] Sapiens: Breve storia dell'umanità — Harari (2011) ISBN: ...  │   │
+│  │ [IMG] Sapiens: A Brief History of Humankind — Harari (2015) ENG     │   │
+│  │ [IMG] Sapiens: Graphic Novel — Harari / Vandermeulen (2020)         │   │
+│  └─────────────────────────────────────────────────────────────────────┘   │
+│                              ↓ click                                        │
+│  ┌── SELEZIONA EDIZIONE ───────────────────────────────────────────────┐   │
+│  │  [IMG1]              [IMG2]              [IMG3]                     │   │
+│  │  Bompiani 2011       BUR 2020            Einaudi 2018               │   │
+│  │  ISBN: 978-88-...   ISBN: 978-88-...    ISBN: 978-88-...           │   │
+│  │  [Seleziona]        [Seleziona ✓]       [Seleziona]                │   │
+│  └─────────────────────────────────────────────────────────────────────┘   │
+│                              ↓                                              │
+│  ┌── DATI PERSONALI ───────────────────────────────────────────────────┐   │
+│  │  Stato: [✓ Letto]  [In corso]  [Da leggere]                        │   │
+│  │  Data inizio: [14/03/2023]   Data fine: [28/03/2023]               │   │
+│  │  Voto: ★★★★★★★★★★ (10)                                              │   │
+│  │  Formato: [📱 Ebook]  [📖 Cartaceo]  [🎧 Audio]                    │   │
+│  │  Scaffale: [Scaffale principale ▾]                                  │   │
+│  │                                          [Annulla] [✓ Aggiungi]    │   │
+│  └─────────────────────────────────────────────────────────────────────┘   │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 9. Panel Statistiche Destra
+
+```
+┌─ STATS ──────────┐
+│                  │
+│  📚 Letti        │
+│  ┌────────────┐  │
+│  │     83     │  │
+│  │   libri    │  │
+│  └────────────┘  │
+│                  │
+│  📄 Pagine lette │
+│  ┌────────────┐  │
+│  │   24,156   │  │
+│  └────────────┘  │
+│                  │
+│  ⭐ Media voti   │
+│  ┌────────────┐  │
+│  │    7.8     │  │
+│  └────────────┘  │
+│                  │
+│  🏆 Autore pref  │
+│  Harari (6)      │
+│                  │
+│  📊 Trend 2025   │
+│  ▄▄▅▆▇███▆▅      │
+│  G F M A M G     │
+│                  │
+│  [Ver. completa] │
+└──────────────────┘
+```
+
+---
+
+## 10. UX Guidelines Applicate (UI/UX Pro Max)
+
+### Priorità CRITICAL
+- Touch target ≥ 44px su tutti i bottoni (incluso mobile)
+- Contrasto testo: cream (#F5E6C8) su dark (#1A1008) = ratio ~11:1 ✓
+- Focus visible su navigazione da tastiera
+- Alt text su tutte le copertine
+
+### Priorità HIGH
+- Mobile: sidebar collassa in bottom navigation (5 voci max)
+- Breakpoints: 375px (mobile), 768px (tablet), 1024px+  (desktop)
+- Nessun orizzonte scroll su mobile
+- Immagini: Next/Image con WebP + lazy loading
+
+### Micro-interazioni
+| Trigger | Animazione | Durata |
+|---|---|---|
+| Hover copertina | translateY(-8px) + glow | 250ms ease |
+| Click libro | scale(0.97) + opacity ripple | 150ms |
+| Slide-up detail panel | translateY(0) from translateY(100%) | 300ms cubic-bezier |
+| Sidebar item active | background fade + border-left | 200ms |
+| Star rating hover | color fill progressivo | 150ms |
+| Stat card load | count-up number animation | 800ms |
+| Modale apertura | opacity 0→1 + scale 0.95→1 | 200ms |
+
+### Performance UX
+- Skeleton loaders su copertine (evita layout shift)
+- Optimistic updates su toggle preferiti/voto
+- Virtualizzazione lista per >100 libri
+- Prefetch route `/libri/[id]` on hover
