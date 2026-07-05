@@ -44,7 +44,7 @@
       "Bash(echo \"\" > \"c:/Users/Peggy18/.claude/projects/c--Users-Peggy18-Documents-Marco-Progetti-ProgettoLibreria/memory/project_industrialization.md\")",
       "Bash(curl -s \"http://localhost:3000/api/health\")",
       "Bash(curl -s -X POST \"http://localhost:3000/api/seed\" -H \"x-seed-secret: seed-vibrazioni-2024\" -H \"Content-Type: application/json\")",
-      "Bash(curl -s \"https://www.googleapis.com/books/v1/volumes?q=intitle:22%2F11%2F63+inauthor:Stephen+King&langRestrict=it&key=AIzaSyCGAY0WwEf2ErQTpr-fqTy8TUyxi-syBxU&maxResults=3\")",
+      "Bash(curl -s \"https://www.googleapis.com/books/v1/volumes?q=intitle:22%2F11%2F63+inauthor:Stephen+King&langRestrict=it&key=REDACTED&maxResults=3\")",
       "Bash(python -c \"import sys,json; data=json.load\\(sys.stdin\\); [print\\(i, v['volumeInfo'].get\\('title'\\), v['volumeInfo'].get\\('imageLinks',{}\\).get\\('thumbnail','NO_COVER'\\)\\) for i,v in enumerate\\(data.get\\('items',[]\\)\\)]\")"
     ],
     "additionalDirectories": [

@@ -44,6 +44,13 @@ yarn-error.log*
 pwd_*
 *secret*
 
+# script dev con chiavi hardcoded + config locale Claude
+/scripts/*.js
+/scripts/*.cjs
+.claude/settings.local.json
+/verify-*.mjs
+/screenshot.mjs
+
 
 # typescript
 *.tsbuildinfo
