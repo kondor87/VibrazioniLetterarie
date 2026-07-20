@@ -16,6 +16,7 @@ export interface IdentitaPayload {
   topRatedBooks: { title: string; author: string; rating: number }[];
   favoriteBooks: { title: string; author: string }[];
   readingByYear: Record<string, number>;
+  allBooks: { title: string; author: string; rating: number | null; year: number | null }[];
 }
 
 // ── Payload per /api/ai/raccomandazioni ─────────────────────────────────────────
@@ -42,6 +43,7 @@ export interface InsightsPayload {
   recentBooks: { title: string; author: string; rating: number; year: number }[];
   favoriteBooks: { title: string; author: string; rating: number }[];
   readingByYear: Record<string, number>;
+  allBooks: { title: string; author: string; rating: number | null; year: number | null }[];
 }
 
 export interface ReaderContext {
@@ -106,13 +108,21 @@ function build(books: BookWithReading[]): ReaderContext {
 
   const alreadyRead = books.map(b => b.title);
 
+  // Lista COMPLETA dei libri letti (per far analizzare all'AI tutta la libreria, non solo il top-N)
+  const allBooks = read.map(b => ({
+    title: b.title,
+    author: b.authors[0] ?? "",
+    rating: b.rating ?? null,
+    year: Number(b.finished_at?.slice(0, 4) ?? b.created_at?.slice(0, 4) ?? 0) || null,
+  })).slice(0, 500); // tetto di sicurezza per librerie enormi
+
   return {
     identita: {
       totalBooks: books.length,
       readBooks: read.length,
       avgRating, totalPages, yearsActive,
       topGenres: topGenresDetailed,
-      topAuthors, topRatedBooks, favoriteBooks, readingByYear,
+      topAuthors, topRatedBooks, favoriteBooks, readingByYear, allBooks,
     },
     raccomandazioni: {
       totalRead: read.length,
@@ -130,7 +140,7 @@ function build(books: BookWithReading[]): ReaderContext {
       totalPages, estHours,
       recentBooks: recentBooksFull,
       favoriteBooks: favoriteBooksRated,
-      readingByYear,
+      readingByYear, allBooks,
     },
   };
 }

@@ -73,15 +73,17 @@ export default function LibroDetailPage({ params }: { params: { id: string } }) 
   const firstAuthor = book?.authors?.[0];
   const bookIsbn = book?.isbn_13 ?? book?.isbn_10 ?? "";
   const [officialSynopsis, setOfficialSynopsis] = useState<string | null>(null);
+  const [synResolved, setSynResolved] = useState(false);
   useEffect(() => {
     if (!bookTitle) { setOfficialSynopsis(null); return; }
     let active = true;
-    setOfficialSynopsis(null);
+    setOfficialSynopsis(null); setSynResolved(false);
     const q = `title=${encodeURIComponent(bookTitle)}&author=${encodeURIComponent(firstAuthor ?? "")}${bookIsbn ? `&isbn=${encodeURIComponent(bookIsbn)}` : ""}`;
     fetch(`/api/synopsis?${q}`)
       .then(r => r.json())
       .then(d => { if (active && d.found) setOfficialSynopsis(d.extract as string); })
-      .catch(() => { /* resta la description salvata */ });
+      .catch(() => { /* resta la description salvata */ })
+      .finally(() => { if (active) setSynResolved(true); });
     return () => { active = false; };
   }, [bookTitle, firstAuthor, bookIsbn]);
 
@@ -204,11 +206,16 @@ export default function LibroDetailPage({ params }: { params: { id: string } }) 
           )}
         </motion.div>
 
-        {/* Sinossi ufficiale (Google Books, edizione italiana quando disponibile) */}
-        {(officialSynopsis ?? book.description) && (
+        {/* Sinossi ufficiale (Google Books IT → Open Library; mai inventata) */}
+        {(officialSynopsis ?? book.description) ? (
           <motion.p initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
             className="font-body text-[16px] text-text-sec leading-relaxed first-letter:text-3xl first-letter:font-display first-letter:text-gold first-letter:mr-1 first-letter:float-left first-letter:leading-[0.9]">
             {officialSynopsis ?? book.description}
+          </motion.p>
+        ) : synResolved && (
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+            className="font-body italic text-[14px] text-text-muted/70 leading-relaxed">
+            La trama di questo libro non è ancora disponibile nelle fonti ufficiali. I dati del libro qui sotto restano completi e verificati.
           </motion.p>
         )}
 

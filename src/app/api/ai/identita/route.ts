@@ -15,6 +15,7 @@ interface IdentitaContext {
   topRatedBooks: { title: string; author: string; rating: number }[];
   favoriteBooks: { title: string; author: string }[];
   readingByYear: Record<string, number>;
+  allBooks?: { title: string; author: string; rating: number | null; year: number | null }[];
 }
 
 export interface IdentitaData {
@@ -73,6 +74,7 @@ Autori più frequenti: ${ctx.topAuthors.slice(0, 6).join(", ")}.
 Libri meglio valutati: ${ctx.topRatedBooks.slice(0, 5).map(b => `"${b.title}" di ${b.author} (${b.rating}/10)`).join(", ")}.
 Libri preferiti (cuore): ${ctx.favoriteBooks.slice(0, 4).map(b => `"${b.title}" di ${b.author}`).join(", ")}.
 Libri letti per anno: ${Object.entries(ctx.readingByYear).sort().map(([y, n]) => `${y}: ${n}`).join(", ")}.
+${ctx.allBooks?.length ? `\nLIBRERIA COMPLETA (${ctx.allBooks.length} libri letti — ANALIZZALI TUTTI, non solo gli esempi sopra):\n${ctx.allBooks.map(b => `• "${b.title}" — ${b.author}${b.rating ? ` (${b.rating}/10)` : ""}${b.year ? ` [${b.year}]` : ""}`).join("\n")}` : ""}
   `.trim();
 
   try {

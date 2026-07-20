@@ -142,7 +142,7 @@ export function BookSearch({ onSelect, placeholder = "Cerca titolo, autore o ISB
 
                 {/* Source badge */}
                 <span className="font-ui text-[11px] uppercase tracking-wide text-text-tert shrink-0">
-                  {book.source === "openlibrary" ? "OL" : "GB"}
+                  {book.source === "openlibrary" ? "OL" : book.source === "sbn" ? "SBN" : "GB"}
                 </span>
               </button>
             </li>

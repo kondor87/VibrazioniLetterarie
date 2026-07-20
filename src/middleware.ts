@@ -26,6 +26,13 @@ export async function middleware(request: NextRequest) {
 
   const { data: { user } } = await supabase.auth.getUser();
 
+  // 🔒 Route AI: richiedono login (evitano costi OpenAI da chiamate anonime).
+  // Il cron mensile si autoprotegge col CRON_SECRET → escluso.
+  const path = request.nextUrl.pathname;
+  if (path.startsWith("/api/ai/") && !path.startsWith("/api/ai/cron") && !user) {
+    return NextResponse.json({ error: "Autenticazione richiesta" }, { status: 401 });
+  }
+
   const isAuthRoute = request.nextUrl.pathname.startsWith("/login") ||
                       request.nextUrl.pathname.startsWith("/signup") ||
                       request.nextUrl.pathname.startsWith("/auth");

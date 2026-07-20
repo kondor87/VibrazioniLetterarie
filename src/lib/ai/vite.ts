@@ -38,6 +38,20 @@ function chunk<T>(arr: T[], size: number): T[][] {
   return out;
 }
 
+// Recupera gli oggetti vita COMPLETI anche da un JSON troncato (max_tokens raggiunto):
+// invece di perdere l'intero batch, salva quelli generati per intero prima del taglio.
+function salvageVite(raw: string): Array<{ book_id: string; vita_vissuta: string; mondo: string }> {
+  const out: Array<{ book_id: string; vita_vissuta: string; mondo: string }> = [];
+  const re = /\{\s*"book_id"\s*:\s*"([^"]+)"\s*,\s*"vita_vissuta"\s*:\s*"((?:[^"\\]|\\.)*)"\s*,\s*"mondo"\s*:\s*"([^"]*)"\s*\}/g;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(raw)) !== null) {
+    try {
+      out.push({ book_id: m[1], vita_vissuta: JSON.parse(`"${m[2]}"`), mondo: m[3] });
+    } catch { /* oggetto malformato: salta */ }
+  }
+  return out;
+}
+
 /** Genera e salva (upsert) le vite per i libri forniti. Ritorna conteggi. */
 export async function generateViteForBooks(
   sb: SupabaseClient,
@@ -57,7 +71,7 @@ export async function generateViteForBooks(
     try {
       const res = await openai.chat.completions.create({
         model: "gpt-4o-mini",
-        max_tokens: 4000,
+        max_tokens: 6000,
         temperature: 0.85,
         response_format: { type: "json_object" },
         messages: [
@@ -67,8 +81,15 @@ export async function generateViteForBooks(
       });
 
       const raw = res.choices[0]?.message?.content ?? "{}";
-      const parsed = JSON.parse(raw) as { vite?: Array<{ book_id: string; vita_vissuta: string; mondo: string }> };
-      const vite = (parsed.vite ?? []).filter(v => v.book_id && v.vita_vissuta);
+      // JSON completo → parse normale; JSON troncato → recupero gli oggetti interi (niente batch perso)
+      let viteRaw: Array<{ book_id: string; vita_vissuta: string; mondo: string }>;
+      try {
+        viteRaw = (JSON.parse(raw) as { vite?: typeof viteRaw }).vite ?? [];
+      } catch {
+        viteRaw = salvageVite(raw);
+        if (viteRaw.length) errors.push(`batch troncato: recuperate ${viteRaw.length}/${batch.length}`);
+      }
+      const vite = viteRaw.filter(v => v.book_id && v.vita_vissuta);
       if (vite.length === 0) { errors.push("batch senza risultati"); continue; }
 
       const rows = vite.map(v => ({

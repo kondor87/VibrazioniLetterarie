@@ -16,6 +16,7 @@ interface BooksContext {
   recentBooks: { title: string; author: string; rating: number; year: number }[];
   favoriteBooks: { title: string; author: string; rating: number }[];
   readingByYear: Record<string, number>;
+  allBooks?: { title: string; author: string; rating: number | null; year: number | null }[];
 }
 
 export interface InsightData {
@@ -85,6 +86,7 @@ Libri meglio valutati: ${ctx.topBooks.map(b => `"${b.title}" di ${b.author} (${b
 Libri preferiti (cuore): ${ctx.favoriteBooks.map(b => `"${b.title}" di ${b.author}`).join(", ")}.
 Ultimi letti: ${ctx.recentBooks.slice(0, 5).map(b => `"${b.title}" di ${b.author} (${b.year}, ${b.rating}/10)`).join(", ")}.
 Libri per anno: ${Object.entries(ctx.readingByYear).sort().map(([y, n]) => `${y}: ${n}`).join(", ")}.
+${ctx.allBooks?.length ? `\nLIBRERIA COMPLETA (${ctx.allBooks.length} libri — ANALIZZALI TUTTI, non solo gli esempi):\n${ctx.allBooks.map(b => `• "${b.title}" — ${b.author}${b.rating ? ` (${b.rating}/10)` : ""}${b.year ? ` [${b.year}]` : ""}`).join("\n")}` : ""}
 `.trim();
 
   try {

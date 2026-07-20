@@ -140,7 +140,7 @@ export interface UserGenre {
 
 // Ricerca libri (da API esterne o inserimento manuale)
 export interface BookSearchResult {
-  source: "openlibrary" | "google" | "manual";
+  source: "openlibrary" | "google" | "manual" | "sbn";
   title: string;
   subtitle?: string;
   authors: string[];
